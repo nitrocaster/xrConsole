@@ -1,6 +1,6 @@
-﻿namespace xrConsoleDemo
+﻿namespace XrConsoleProject
 {
-    partial class MainWindow
+    partial class ConsoleWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -28,20 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.xrConsole = new XrConsoleProject.XrConsole();
             this.SuspendLayout();
             // 
-            // MainWindow
+            // xrConsole
+            // 
+            this.xrConsole.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.xrConsole.Font = new System.Drawing.Font("Arial", 9F);
+            this.xrConsole.Location = new System.Drawing.Point(0, 0);
+            this.xrConsole.Name = "xrConsole";
+            this.xrConsole.Size = new System.Drawing.Size(624, 282);
+            this.xrConsole.TabIndex = 0;
+            // 
+            // ConsoleWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
-            this.Name = "MainWindow";
-            this.Text = "xrConsole Demo";
+            this.ClientSize = new System.Drawing.Size(624, 282);
+            this.Controls.Add(this.xrConsole);
+            this.Name = "ConsoleWindow";
+            this.Text = "ConsoleWindow";
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private XrConsole xrConsole;
     }
 }
-
