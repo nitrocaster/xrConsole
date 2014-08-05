@@ -220,7 +220,7 @@ namespace XrConsoleProject
             {
                 return commands.Keys[i + 1];
             }
-            var result = new StringBuilder("", 256);
+            var result = new StringBuilder(256);
             InternalFindNextCmd(commandTrie, command, command.Length, 0, ref result);
             return result.ToString();
         }
