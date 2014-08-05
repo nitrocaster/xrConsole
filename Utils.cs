@@ -6,7 +6,7 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 
-namespace XrConsoleProject
+namespace xr
 {
     // already exist in System
     //public delegate TResult Func<out TResult>();

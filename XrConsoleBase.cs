@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace XrConsoleProject
+namespace xr
 {
     using RECT = WinAPI.RECT;
     using StockObjects = WinAPI.StockObjects;

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Timers;
-using XrConsoleProject.ConsoleCommands;
+using xr.ConsoleCommands;
 
-namespace XrConsoleProject
+namespace xr
 {
     public sealed class ScrollHelper : IDisposable
     {

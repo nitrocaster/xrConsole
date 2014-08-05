@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using XrConsoleProject.ConsoleCommands;
+using xr.ConsoleCommands;
 
-namespace XrConsoleProject
+namespace xr
 {
     public static class Program
     {

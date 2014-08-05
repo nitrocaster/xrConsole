@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System;
 
-namespace XrConsoleProject
+namespace xr
 {
     public interface ILogger : IDisposable
     {

@@ -8,7 +8,7 @@
     <ProjectGuid>{F59AB5AC-2119-47CB-A905-6F5B3FFFF0A5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>XrConsoleProject</RootNamespace>
+    <RootNamespace>xr</RootNamespace>
     <AssemblyName>XrConsole</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
@@ -41,7 +41,7 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>XrConsoleProject.Program</StartupObject>
+    <StartupObject>xr.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
 using System.Text;
-using XrConsoleProject.ConsoleCommands;
+using xr.ConsoleCommands;
 
-namespace XrConsoleProject
+namespace xr
 {
     public sealed class XrConsole : XrConsoleBase
     {

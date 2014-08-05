@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XrConsoleProject
+namespace xr
 {
     using CFlags = ConsoleCommandFlags;
 

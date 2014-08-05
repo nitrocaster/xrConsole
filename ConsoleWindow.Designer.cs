@@ -1,4 +1,4 @@
-﻿namespace XrConsoleProject
+﻿namespace xr
 {
     partial class ConsoleWindow
     {
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.xrConsole = new XrConsoleProject.XrConsole();
+            this.xrConsole = new xr.XrConsole();
             this.SuspendLayout();
             // 
             // xrConsole

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XrConsoleProject.ConsoleCommands
+namespace xr.ConsoleCommands
 {
     public class BooleanVar : ConsoleCommand
     {

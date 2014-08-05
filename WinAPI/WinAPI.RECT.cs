@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace XrConsoleProject
+namespace xr
 {
     public static partial class WinAPI
     {

@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Windows.Forms;
 
-namespace XrConsoleProject
+namespace xr
 {
     public sealed class TextEditor
     {

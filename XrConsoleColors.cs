@@ -1,5 +1,5 @@
 ﻿
-namespace XrConsoleProject
+namespace xr
 {
     public static class XrConsoleColors
     {

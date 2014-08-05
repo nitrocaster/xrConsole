@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace XrConsoleProject
+namespace xr
 {
     public partial class ConsoleWindow : Form
     {

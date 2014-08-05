@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
 
-namespace XrConsoleProject
+namespace xr
 {
     [SuppressUnmanagedCodeSecurity]
     public static unsafe partial class WinAPI

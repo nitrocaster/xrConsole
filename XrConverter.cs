@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace XrConsoleProject
+namespace xr
 {
     public static class XrConverter
     {

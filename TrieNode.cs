@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace XrConsoleProject
+namespace xr
 {
     public class TrieNode<T>
     {
