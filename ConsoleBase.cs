@@ -82,7 +82,7 @@ namespace xr
         private const uint EditorTextColor = 0x69cdcd;
         private static readonly Size MaxClientSize = Screen.PrimaryScreen.Bounds.Size;
         private static readonly Size ContentPadding = new Size(10, 6);
-        WinAPI.TEXTMETRIC textMetric;
+        private WinAPI.TEXTMETRIC textMetric;
         private VoidPtr hBackBuffer;
         private VoidPtr hFont;
         private VoidPtr hWindow;
