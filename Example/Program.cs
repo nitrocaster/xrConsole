@@ -9,9 +9,7 @@ namespace xr.Example
 {
     static class Program
     {
-        private static string UserName { get; set; }
-        private static string LogFileName { get; set; }
-        private static Console Console { get; set; }
+        private static Console console;
         private static ILogger logger;
         private static ConsoleWindow consoleWnd;
 
@@ -21,19 +19,18 @@ namespace xr.Example
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(true);
-            UserName = Environment.UserName;
-            LogFileName = String.Format("xrConsole_{0}.log", UserName);
-            logger = new PlainLogger(LogFileName);
+            var logFileName = String.Format("xrConsole_{0}.log", Environment.UserName);
+            logger = new PlainLogger(logFileName);
             consoleWnd = new ConsoleWindow();
-            Console = consoleWnd.Console;
-            Console.AttachLogger(logger);
-            Console.AddCommand(new Func(Console, "quit", Console_Quit));
-            Console.AddCommand(new Func(Console, "clear_log", Console_ClearLog, "Clear log"));
-            Console.AddCommand(new StringVar(Console, "font_face",
+            console = consoleWnd.Console;
+            console.AttachLogger(logger);
+            console.AddCommand(new Func(console, "quit", Console_Quit));
+            console.AddCommand(new Func(console, "clear_log", Console_ClearLog, "Clear log"));
+            console.AddCommand(new StringVar(console, "font_face",
                 new Accessor<string>(Console_GetFontFace, Console_SetFontFace), 255, "Console font face"));
-            Console.AddCommand(new FloatVar(Console, "font_size",
+            console.AddCommand(new FloatVar(console, "font_size",
                 new Accessor<float>(Console_GetFontSize, Console_SetFontSize), 5.0f, 20.0f, "Console font size"));
-            ScrollHelper.RegisterSelf(Console);
+            ScrollHelper.RegisterSelf(console);
             consoleWnd.ShowDialog();
             if (logger != null)
             {
@@ -65,7 +62,7 @@ namespace xr.Example
 
         private static string Console_GetFontFace()
         {
-            return Console.Font.Name;
+            return console.Font.Name;
         }
 
         private static void Console_SetFontFace(string fontFace)
@@ -75,19 +72,19 @@ namespace xr.Example
                 Msg("! Font not found: '{0}'", fontFace);
                 return;
             }
-            var prevFont = Console.Font;
-            Console.InvokeAsync(() => Console.Font = new Font(fontFace, prevFont.Size, prevFont.Style));
+            var prevFont = console.Font;
+            console.InvokeAsync(() => console.Font = new Font(fontFace, prevFont.Size, prevFont.Style));
         }
 
         private static float Console_GetFontSize()
         {
-            return Console.Font.Size;
+            return console.Font.Size;
         }
 
         private static void Console_SetFontSize(float size)
         {
-            var prevFont = Console.Font;
-            Console.InvokeAsync(() => Console.Font = new Font(prevFont.Name, size, prevFont.Style));
+            var prevFont = console.Font;
+            console.InvokeAsync(() => console.Font = new Font(prevFont.Name, size, prevFont.Style));
         }
 
         private static void Msg(string msg)
