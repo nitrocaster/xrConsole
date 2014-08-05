@@ -6,8 +6,8 @@ namespace xr.ConsoleCommands
     {
         protected Accessor<bool> Target;
 
-        public BooleanVar(string name, Accessor<bool> target, string info = "")
-            : base(name, info)
+        public BooleanVar(Console console, string name, Accessor<bool> target, string info = "")
+            : base(console, name, info)
         {
             Target = target;
         }
@@ -46,8 +46,8 @@ namespace xr.ConsoleCommands
         protected int Max;
         protected Accessor<int> Target;
 
-        public IntegerVar(string name, Accessor<int> target, int min, int max, string info = "")
-            : base(name, info)
+        public IntegerVar(Console console, string name, Accessor<int> target, int min, int max, string info = "")
+            : base(console, name, info)
         {
             Min = min;
             Max = max;
@@ -97,8 +97,8 @@ namespace xr.ConsoleCommands
         protected float Max;
         protected Accessor<float> Target;
 
-        public FloatVar(string name, Accessor<float> target, float min, float max, string info = "")
-            : base(name, info)
+        public FloatVar(Console console, string name, Accessor<float> target, float min, float max, string info = "")
+            : base(console, name, info)
         {
             Min = min;
             Max = max;
@@ -147,8 +147,8 @@ namespace xr.ConsoleCommands
         protected int MaxLength;
         protected Accessor<string> Target;
 
-        public StringVar(string name, Accessor<string> target, int maxLength, string info = "")
-            : base(name, info)
+        public StringVar(Console console, string name, Accessor<string> target, int maxLength, string info = "")
+            : base(console, name, info)
         {
             MaxLength = maxLength;
             Target = target;
@@ -183,8 +183,8 @@ namespace xr.ConsoleCommands
     {
         protected Action Handler;
 
-        public Func(string name, Action handler, string info = "")
-            : base(name, info)
+        public Func(Console console, string name, Action handler, string info = "")
+            : base(console, name, info)
         {
             Handler = handler;
         }
@@ -204,8 +204,8 @@ namespace xr.ConsoleCommands
     {
         protected Action<bool> Handler;
 
-        public BooleanFunc(string name, Action<bool> handler, string info = "")
-            : base(name, info)
+        public BooleanFunc(Console console, string name, Action<bool> handler, string info = "")
+            : base(console, name, info)
         {
             Handler = handler;
         }
@@ -243,8 +243,8 @@ namespace xr.ConsoleCommands
         protected int Max;
         protected Action<int> Handler;
 
-        public IntegerFunc(string name, Action<int> handler, int min, int max, string info = "")
-            : base(name, info)
+        public IntegerFunc(Console console, string name, Action<int> handler, int min, int max, string info = "")
+            : base(console, name, info)
         {
             Handler = handler;
             Min = min;
@@ -293,8 +293,8 @@ namespace xr.ConsoleCommands
         protected float Max;
         protected Action<float> Handler;
 
-        public FloatFunc(string name, Action<float> handler, float min, float max, string info = "")
-            : base(name, info)
+        public FloatFunc(Console console, string name, Action<float> handler, float min, float max, string info = "")
+            : base(console, name, info)
         {
             Handler = handler;
             Min = min;
@@ -342,8 +342,8 @@ namespace xr.ConsoleCommands
         protected int MaxLength;
         protected Action<string> Handler;
 
-        public StringFunc(string name, Action<string> handler, int maxLength, string info = "")
-            : base(name, info)
+        public StringFunc(Console console, string name, Action<string> handler, int maxLength, string info = "")
+            : base(console, name, info)
         {
             Handler = handler;
             MaxLength = maxLength;

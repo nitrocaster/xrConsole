@@ -32,7 +32,7 @@ namespace xr
                 commandQueue = new Queue<string>(CommandQueueSize);
                 commandTrie = new TrieNode<char>();
                 commands = new SortedList<string, ConsoleCommand>();
-                AddCommand(new StringFunc("help", Console_Help, 255, "Print help"));
+                AddCommand(new StringFunc(this, "help", Console_Help, 255, "Print help"));
                 listener = Utils.CreateThread(ConsoleListenerProc, "ConsoleListener");
             }
             Initialized = true;
@@ -123,19 +123,19 @@ namespace xr
             var command = GetCommandByName(cmdName);
             if (command == null)
             {
-                Program.Msg("! Unknown command: " + cmdName);
+                Msg("! Unknown command: " + cmdName);
                 return;
             }
             if (!command.Flags.HasFlag(ConsoleCommandFlags.Enabled))
             {
-                Program.Msg("! Command disabled.");
+                Msg("! Command disabled.");
                 return;
             }
             if (command.Flags.HasFlag(ConsoleCommandFlags.Variable))
             {
                 if (cmdArgs.Length == 0)
                 {
-                    Program.Msg("- {0} {1}", command.Name, command.Status);
+                    Msg("- {0} {1}", command.Name, command.Status);
                     return;
                 }
             }
@@ -149,23 +149,23 @@ namespace xr
                 var cmd = GetCommandByName(args);
                 if (cmd == null)
                 {
-                    Program.Msg("! Unknown command: " + args);
+                    Msg("! Unknown command: " + args);
                     return;
                 }
                 PrintCommandInfo(cmd);
                 return;
             }
-            Program.Msg("- --- Command listing start ---");
+            Msg("- --- Command listing start ---");
             foreach (var cmd in commands.Values)
             {
                 PrintCommandInfo(cmd);
             }
-            Program.Msg("- --- Command listing end ---");
+            Msg("- --- Command listing end ---");
         }
 
-        private static void PrintCommandInfo(ConsoleCommand cmd)
+        private void PrintCommandInfo(ConsoleCommand cmd)
         {
-            Program.Msg("{0}  {1}<{2}> {3}",
+            Msg("{0}  {1}<{2}> {3}",
                 cmd.Name,
                 (cmd.Status != null) ? String.Format("( {0} )  ", cmd.Status) : String.Empty,
                 cmd.Args,
@@ -181,7 +181,7 @@ namespace xr
         private void LogCommand(string args)
         {
             CmdCache.Push(args);
-            Program.Msg("@ " + args);
+            Msg("@ " + args);
         }
         
         public void AddCommand(ConsoleCommand command)

@@ -17,12 +17,18 @@ namespace xr
 
     public abstract class ConsoleCommand
     {
-        protected ConsoleCommand(string name, string info = "")
+        protected ConsoleCommand(Console console, string name, string info = "")
         {
+            Console = console;
             Name = name;
             Args = "no arguments";
             Info = info;
         }
+
+        /// <summary>
+        /// Returns Console instance assotiated with this ConsoleCommand.
+        /// </summary>
+        protected Console Console { get; private set; }
 
         /// <summary>
         /// Returns command flags.
@@ -64,8 +70,8 @@ namespace xr
 
         protected void InvalidSyntax()
         {
-            Program.Msg("~ Invalid syntax in call to '{0}'", Name);
-            Program.Msg("~ Valid arguments: " + Args);
+            Console.Msg("~ Invalid syntax in call to '{0}'", Name);
+            Console.Msg("~ Valid arguments: " + Args);
         }
     }
 }

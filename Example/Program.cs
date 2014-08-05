@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using xr.ConsoleCommands;
 
-namespace xr
+namespace xr.Example
 {
     public static class Program
     {
@@ -25,13 +25,13 @@ namespace xr
             consoleWnd = new ConsoleWindow();
             Console = consoleWnd.Console;
             Console.AttachLogger(logger);
-            Console.AddCommand(new Func("quit", Console_Quit));
-            Console.AddCommand(new Func("clear_log", Console_ClearLog, "Clear log"));
-            Console.AddCommand(new StringVar("font_face",
+            Console.AddCommand(new Func(Console, "quit", Console_Quit));
+            Console.AddCommand(new Func(Console, "clear_log", Console_ClearLog, "Clear log"));
+            Console.AddCommand(new StringVar(Console, "font_face",
                 new Accessor<string>(Console_GetFontFace, Console_SetFontFace), 255, "Console font face"));
-            Console.AddCommand(new FloatVar("font_size",
+            Console.AddCommand(new FloatVar(Console, "font_size",
                 new Accessor<float>(Console_GetFontSize, Console_SetFontSize), 5.0f, 20.0f, "Console font size"));
-            ScrollHelper.RegisterSelf();
+            ScrollHelper.RegisterSelf(Console);
             consoleWnd.ShowDialog();
             if (logger != null)
             {

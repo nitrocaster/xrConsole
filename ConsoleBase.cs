@@ -900,5 +900,21 @@ namespace xr
                 Invalidate();
             }
         }
+
+        internal void Msg(string msg)
+        {
+            if (logger != null)
+            {
+                logger.Log(msg);
+            }
+        }
+
+        internal void Msg(string msg, params object[] args)
+        {
+            if (logger != null)
+            {
+                logger.Log(String.Format(msg, args));
+            }
+        }
     }
 }
