@@ -69,9 +69,7 @@
     <Compile Include="WinAPI\WinAPI.ExternDll.cs" />
     <Compile Include="WinAPI\WinAPI.RECT.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="System\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
