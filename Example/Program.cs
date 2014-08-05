@@ -7,11 +7,11 @@ using xr.ConsoleCommands;
 
 namespace xr.Example
 {
-    public static class Program
+    static class Program
     {
-        public static string UserName { get; private set; }
-        public static string LogFileName { get; private set; }
-        public static Console Console { get; private set; }
+        private static string UserName { get; set; }
+        private static string LogFileName { get; set; }
+        private static Console Console { get; set; }
         private static ILogger logger;
         private static ConsoleWindow consoleWnd;
 
@@ -90,7 +90,7 @@ namespace xr.Example
             Console.InvokeAsync(() => Console.Font = new Font(prevFont.Name, size, prevFont.Style));
         }
 
-        public static void Msg(string msg)
+        private static void Msg(string msg)
         {
             if (logger != null)
             {
@@ -98,7 +98,7 @@ namespace xr.Example
             }
         }
 
-        public static void Msg(string msg, params object[] args)
+        private static void Msg(string msg, params object[] args)
         {
             if (logger != null)
             {
