@@ -1,0 +1,12 @@
+# User-specific files
+*.suo
+*.user
+
+# Build results
+bin/
+obj/
+
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
