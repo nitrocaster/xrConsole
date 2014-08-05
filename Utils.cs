@@ -107,59 +107,59 @@ namespace xr
             return a.Max != b.Max || a.Min != b.Min;
         }
     }
-}
 
-public static class Utils
-{
-    public static readonly char[] WhitespaceChars = { ' ', '\t' };
-
-    public static Thread CreateThread(ThreadStart target, string name,
-        bool background = true, bool suspended = false)
+    public static class Utils
     {
-        var trd = new Thread(target)
+        public static readonly char[] WhitespaceChars = { ' ', '\t' };
+
+        public static Thread CreateThread(ThreadStart target, string name,
+            bool background = true, bool suspended = false)
         {
-            Name = name,
-            IsBackground = background,
-            CurrentCulture = CultureInfo.InvariantCulture
-        };
-        if (!suspended)
-        {
-            trd.Start();
+            var trd = new Thread(target)
+            {
+                Name = name,
+                IsBackground = background,
+                CurrentCulture = CultureInfo.InvariantCulture
+            };
+            if (!suspended)
+            {
+                trd.Start();
+            }
+            return trd;
         }
-        return trd;
-    }
 
-    public static Thread CreateThread(ParameterizedThreadStart target, object arg, string name,
-        bool background = true, bool suspended = false)
-    {
-        var trd = new Thread(target)
+        public static Thread CreateThread(ParameterizedThreadStart target, object arg, string name,
+            bool background = true, bool suspended = false)
         {
-            Name = name,
-            IsBackground = background,
-            CurrentCulture = CultureInfo.InvariantCulture
-        };
-        if (!suspended)
-        {
-            trd.Start(arg);
+            var trd = new Thread(target)
+            {
+                Name = name,
+                IsBackground = background,
+                CurrentCulture = CultureInfo.InvariantCulture
+            };
+            if (!suspended)
+            {
+                trd.Start(arg);
+            }
+            return trd;
         }
-        return trd;
-    }
 
-    public static string GetFirstArg(this string s)
-    {
-        var iSpace = s.IndexOfAny(WhitespaceChars);
-        if (iSpace == -1)
+        public static string GetFirstArg(this string s)
         {
-            return null;
+            var iSpace = s.IndexOfAny(WhitespaceChars);
+            if (iSpace == -1)
+            {
+                return null;
+            }
+            return s.Substring(0, iSpace);
         }
-        return s.Substring(0, iSpace);
-    }
 
-    public static bool IsFontInstalled(string name)
-    {
-        using (var fonts = new InstalledFontCollection())
+        public static bool IsFontInstalled(string name)
         {
-            return fonts.Families.Any(x => x.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
+            using (var fonts = new InstalledFontCollection())
+            {
+                return fonts.Families.Any(x => x.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
+            }
         }
     }
 }
