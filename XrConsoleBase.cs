@@ -105,7 +105,10 @@ namespace XrConsoleProject
             AttachLogger(logger);
             SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint |ControlStyles.ResizeRedraw, true);
             Editor = new TextEditor(512);
-            Scroller = new ScrollHelper(ScrollUp, ScrollDown);
+            if (!DesignMode)
+            {
+                Scroller = new ScrollHelper(ScrollUp, ScrollDown);
+            }
             CmdCache = new CommandCache();
         }
         
@@ -212,7 +215,10 @@ namespace XrConsoleProject
                     if (disposing)
                     {
                         DetachLogger();
-                        Scroller.Dispose();
+                        if (Scroller != null)
+                        {
+                            Scroller.Dispose();
+                        }
                         WinAPI.DeleteObject(hFont);
                         WinAPI.DeleteObject(hBackBuffer);
                         WinAPI.DeleteObject(hBackBrush);
@@ -594,7 +600,7 @@ namespace XrConsoleProject
         private void DrawCounter()
         {
             var posY = ClientSize.Height - textMetric.tmHeight - ContentPadding.Height;
-            var formatString = String.Format("[{0}/{1}]", lineIndex + 1, lineCount);
+            var formatString = DesignMode ? "[0/0]" : String.Format("[{0}/{1}]", lineIndex + 1, lineCount);
             var lineWidth = GetLineWidth();
             WinAPI.SetBkColor(hdcBackBuffer, XrConsoleColors.Black);
             WinAPI.SetTextColor(hdcBackBuffer, CounterColor);
@@ -786,14 +792,14 @@ namespace XrConsoleProject
                     break;
 
                 case Keys.PageUp:
-                    if (Scroller.State != ScrollHelper.ScrollState.Up)
+                    if (Scroller != null && Scroller.State != ScrollHelper.ScrollState.Up)
                     {
                         Scroller.BeginScrollUp();
                     }
                     break;
 
                 case Keys.PageDown:
-                    if (Scroller.State != ScrollHelper.ScrollState.Down)
+                    if (Scroller != null && Scroller.State != ScrollHelper.ScrollState.Down)
                     {
                         Scroller.BeginScrollDown();
                     }
@@ -882,7 +888,10 @@ namespace XrConsoleProject
                 case Keys.PageUp:
                 case Keys.PageDown:
                     e.Handled = true;
-                    Scroller.EndScroll();
+                    if (Scroller != null)
+                    {
+                        Scroller.EndScroll();
+                    }
                     break;
             }
             base.OnKeyUp(e);

@@ -27,11 +27,14 @@ namespace XrConsoleProject
         public XrConsole(ILogger logger)
             : base(logger)
         {
-            commandQueue = new Queue<string>(CommandQueueSize);
-            commandTrie = new TrieNode<char>();
-            commands = new SortedList<string, ConsoleCommand>();
-            AddCommand(new StringFunc("help", Console_Help, 255, "Print help"));
-            listener = Utils.CreateThread(ConsoleListenerProc, "ConsoleListener");
+            if (!DesignMode)
+            {
+                commandQueue = new Queue<string>(CommandQueueSize);
+                commandTrie = new TrieNode<char>();
+                commands = new SortedList<string, ConsoleCommand>();
+                AddCommand(new StringFunc("help", Console_Help, 255, "Print help"));
+                listener = Utils.CreateThread(ConsoleListenerProc, "ConsoleListener");
+            }
             Initialized = true;
         }
         
@@ -41,7 +44,7 @@ namespace XrConsoleProject
             {
                 if (!IsDisposed)
                 {
-                    if (disposing)
+                    if (disposing && !DesignMode)
                     {
                         listenInput = false;
                         if (Thread.CurrentThread != listener)
@@ -433,7 +436,7 @@ namespace XrConsoleProject
             switch (e.KeyCode)
             {
                 case Keys.Tab:
-                    if (tabKeyState)
+                    if (tabKeyState || DesignMode)
                     {
                         break;
                     }
