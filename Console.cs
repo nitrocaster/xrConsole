@@ -61,7 +61,7 @@ namespace xr
                             RemoveCommand(commands.Keys[0]);
                         }
                     }
-                    DisposeHelper.OnDispose(disposing, "XrConsole");
+                    DisposeHelper.OnDispose(disposing, "xr.Console");
                 }
             }
             finally

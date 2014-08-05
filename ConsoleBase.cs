@@ -226,7 +226,7 @@ namespace xr
                         WinAPI.DeleteDC(hdcBackBuffer);
                         WinAPI.ReleaseDC(hWindow, hdcWindow);
                     }
-                    DisposeHelper.OnDispose(disposing, "XrConsoleBase");
+                    DisposeHelper.OnDispose(disposing, "xr.ConsoleBase");
                 }
             }
             finally
