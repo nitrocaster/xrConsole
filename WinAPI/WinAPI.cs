@@ -7,7 +7,7 @@ using System.Text;
 namespace xr
 {
     [SuppressUnmanagedCodeSecurity]
-    public static unsafe partial class WinAPI
+    internal static unsafe partial class WinAPI
     {
         [DllImport(ExternDll.GDI32, SetLastError = true)]
         public static extern VoidPtr CreateDC(string lpszDriver, string lpszDevice, string lpszOutput,

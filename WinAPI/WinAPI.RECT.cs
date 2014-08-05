@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace xr
 {
-    public static partial class WinAPI
+    internal static partial class WinAPI
     {
         [StructLayout(LayoutKind.Sequential)]
         public struct RECT

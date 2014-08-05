@@ -1,7 +1,7 @@
 ﻿
 namespace xr
 {
-    public static partial class WinAPI
+    internal static partial class WinAPI
     {
         public static class ExternDll
         {
