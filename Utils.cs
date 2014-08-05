@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Drawing.Text;
 using System.Globalization;
-using System.Linq;
 using System.Threading;
-using System.Runtime.InteropServices;
 using System.Diagnostics;
 
 namespace xr
@@ -152,14 +149,6 @@ namespace xr
                 return null;
             }
             return s.Substring(0, iSpace);
-        }
-
-        public static bool IsFontInstalled(string name)
-        {
-            using (var fonts = new InstalledFontCollection())
-            {
-                return fonts.Families.Any(x => x.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
-            }
         }
     }
 }

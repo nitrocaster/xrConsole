@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Text;
+using System.Linq;
 using System.Windows.Forms;
 using xr.ConsoleCommands;
 
@@ -68,7 +70,7 @@ namespace xr.Example
 
         private static void Console_SetFontFace(string fontFace)
         {
-            if (!Utils.IsFontInstalled(fontFace))
+            if (!IsFontInstalled(fontFace))
             {
                 Msg("! Font not found: '{0}'", fontFace);
                 return;
@@ -101,6 +103,14 @@ namespace xr.Example
             if (logger != null)
             {
                 logger.Log(String.Format(msg, args));
+            }
+        }
+
+        private static bool IsFontInstalled(string name)
+        {
+            using (var fonts = new InstalledFontCollection())
+            {
+                return fonts.Families.Any(x => x.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
             }
         }
     }
