@@ -1,7 +1,8 @@
 ﻿//#define VoidPtr_IncludeLogicalOperators
+using System;
 using System.Globalization;
 
-namespace System
+namespace xr
 {
     /// <summary>
     ///     A platform-specific type that is used to represent a pointer or a handle.

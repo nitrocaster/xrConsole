@@ -1,7 +1,9 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
-namespace System.Windows.Forms
+namespace xr.Windows.Forms
 {
     /// <summary>
     /// Defines the base class for controls, which are components with visual representation.

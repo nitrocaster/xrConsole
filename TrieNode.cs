@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace xr
+namespace xr.Detail
 {
-    public class TrieNode<T>
+    internal class TrieNode<T>
     {
         public SortedList<T, TrieNode<T>> Children { get; set; }
 

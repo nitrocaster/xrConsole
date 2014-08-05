@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Text;
 using xr.ConsoleCommands;
+using xr.Detail;
 
 namespace xr
 {

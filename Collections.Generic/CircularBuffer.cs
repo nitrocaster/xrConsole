@@ -2,9 +2,12 @@
 #define CircularBuffer_check_args
 #endif
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace System.Collections.Generic
+namespace xr.Collections.Generic
 {
     [DebuggerDisplay("Count = {Count}")]
     public class CircularBuffer<T> : IEnumerable<T>

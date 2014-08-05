@@ -1,9 +1,10 @@
 ﻿#define XrConsole_use_optimized_rendering
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using xr.Collections.Generic;
+using xr.Windows.Forms;
 
 namespace xr
 {
