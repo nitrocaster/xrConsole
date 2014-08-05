@@ -9,7 +9,7 @@ namespace xr
     {
         public static string UserName { get; private set; }
         public static string LogFileName { get; private set; }
-        public static XrConsole Console { get; private set; }
+        public static Console Console { get; private set; }
         private static ILogger logger;
         private static ConsoleWindow consoleWnd;
 

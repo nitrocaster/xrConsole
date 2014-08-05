@@ -60,14 +60,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="XrConsole.cs">
+    <Compile Include="Console.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="XrConsoleBase.cs">
+    <Compile Include="ConsoleBase.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ConsoleCommand.cs" />
-    <Compile Include="XrConsoleColors.cs" />
+    <Compile Include="ConsoleColors.cs" />
     <Compile Include="ScrollHelper.cs" />
     <Compile Include="TextEditor.cs" />
     <Compile Include="ConsoleCommands.cs" />

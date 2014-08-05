@@ -1,7 +1,7 @@
 ﻿
 namespace xr
 {
-    public static class XrConsoleColors
+    public static class ConsoleColors
     {
         /// <summary>
         /// '!'

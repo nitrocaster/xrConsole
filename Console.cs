@@ -7,7 +7,7 @@ using xr.ConsoleCommands;
 
 namespace xr
 {
-    public sealed class XrConsole : XrConsoleBase
+    public sealed class Console : ConsoleBase
     {
         private const int CommandQueueSize = 16;
         private const int ListenerExitTimeout = 5000;
@@ -19,12 +19,12 @@ namespace xr
         private volatile bool listenInput = true;
         private bool tabKeyState = false;
 
-        public XrConsole()
+        public Console()
             : this(null)
         {
         }
 
-        public XrConsole(ILogger logger)
+        public Console(ILogger logger)
             : base(logger)
         {
             if (!DesignMode)

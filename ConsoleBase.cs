@@ -10,7 +10,7 @@ namespace xr
     using RECT = WinAPI.RECT;
     using StockObjects = WinAPI.StockObjects;
 
-    public abstract unsafe class XrConsoleBase : ControlEx
+    public abstract unsafe class ConsoleBase : ControlEx
     {
         protected sealed class CommandCache
         {
@@ -99,7 +99,7 @@ namespace xr
         private IntRange renderedLines;
         private bool forceRedraw = false;
 
-        public XrConsoleBase(ILogger logger = null)
+        public ConsoleBase(ILogger logger = null)
         {
             logBuffer = new CircularBuffer<string>(256);
             AttachLogger(logger);
@@ -198,12 +198,12 @@ namespace xr
             Debug.Assert(hBackBuffer, "Unable to create Compatible Bitmap");
             hBackBrush = WinAPI.GetStockObject(StockObjects.BLACK_BRUSH);
             Debug.Assert(hBackBrush, "Unable to create SolidBrush");
-            hSelectionBrush = WinAPI.CreateSolidBrush(XrConsoleColors.DarkGray);
+            hSelectionBrush = WinAPI.CreateSolidBrush(ConsoleColors.DarkGray);
             Debug.Assert(hSelectionBrush, "Unable to create SolidBrush");
             WinAPI.SelectObject(hdcBackBuffer, hBackBuffer);
             ClearRect(hdcBackBuffer, RECT.FromSize(MaxClientSize));
             WinAPI.SetBkMode(hdcBackBuffer, WinAPI.BkModeTypes.OPAQUE);
-            WinAPI.SetBkColor(hdcBackBuffer, XrConsoleColors.Black);
+            WinAPI.SetBkColor(hdcBackBuffer, ConsoleColors.Black);
         }
 
         protected override void Dispose(bool disposing)
@@ -421,8 +421,8 @@ namespace xr
             fixed (char* editorText = Editor.Buffer.ToString())
             {
                 const string marker = ">>> ";
-                WinAPI.SetTextColor(hdcBackBuffer, XrConsoleColors.White);
-                WinAPI.SetBkColor(hdcBackBuffer, XrConsoleColors.Black);
+                WinAPI.SetTextColor(hdcBackBuffer, ConsoleColors.White);
+                WinAPI.SetBkColor(hdcBackBuffer, ConsoleColors.Black);
                 WinAPI.TextOut(hdcBackBuffer, 0, posY, marker, marker.Length);
                 Size markerSize;
                 WinAPI.GetTextExtentPoint32(hdcBackBuffer, marker, marker.Length, out markerSize);
@@ -430,7 +430,7 @@ namespace xr
                 WinAPI.SetTextColor(hdcBackBuffer, EditorTextColor);
                 if (selection.Length == 0)
                 {
-                    WinAPI.SetBkColor(hdcBackBuffer, XrConsoleColors.Black);
+                    WinAPI.SetBkColor(hdcBackBuffer, ConsoleColors.Black);
                 }
                 else
                 {
@@ -464,7 +464,7 @@ namespace xr
                     bool cursorSelected = selection.StartIndex <= Editor.CursorPos &&
                         Editor.CursorPos < selection.StartIndex + selection.Length;
                     WinAPI.SetTextColor(hdcBackBuffer,
-                        cursorSelected ? XrConsoleColors.Lime : XrConsoleColors.Default);
+                        cursorSelected ? ConsoleColors.Lime : ConsoleColors.Default);
                 }
                 WinAPI.TextOut(hdcBackBuffer, markerSize.Width + cursorOffset.Width, posY, "_", 1);
                 #endregion
@@ -517,9 +517,9 @@ namespace xr
                 fixed (char* pLine = line)
                 {
                     var lineColor = GetLineColor(line);
-                    WinAPI.SetBkColor(hdcBackBuffer, XrConsoleColors.Black);
+                    WinAPI.SetBkColor(hdcBackBuffer, ConsoleColors.Black);
                     WinAPI.SetTextColor(hdcBackBuffer, lineColor);
-                    if (lineColor != XrConsoleColors.Default && line.Length >= 2)
+                    if (lineColor != ConsoleColors.Default && line.Length >= 2)
                     {
                         WinAPI.TextOut(hdcBackBuffer, logRect.Left + ContentPadding.Width, posY, pLine + 2, line.Length - 2);
                     }
@@ -602,7 +602,7 @@ namespace xr
             var posY = ClientSize.Height - textMetric.tmHeight - ContentPadding.Height;
             var formatString = DesignMode ? "[0/0]" : String.Format("[{0}/{1}]", lineIndex + 1, lineCount);
             var lineWidth = GetLineWidth();
-            WinAPI.SetBkColor(hdcBackBuffer, XrConsoleColors.Black);
+            WinAPI.SetBkColor(hdcBackBuffer, ConsoleColors.Black);
             WinAPI.SetTextColor(hdcBackBuffer, CounterColor);
             fixed (char* pFormatString = formatString)
             {
@@ -629,7 +629,7 @@ namespace xr
         {
             if (line.Length == 0)
             {
-                return XrConsoleColors.White;
+                return ConsoleColors.White;
             }
             return GetColorByChar(line[0]);
         }
@@ -640,46 +640,46 @@ namespace xr
             switch (c)
             {
                 case '!': //0x21: //'!'
-                    result = XrConsoleColors.Red;
+                    result = ConsoleColors.Red;
                     break;
                 case '#': //0x23: //'#'
-                    result = XrConsoleColors.Cyan;
+                    result = ConsoleColors.Cyan;
                     break;
                 case '$': //0x24: //'$'
-                    result = XrConsoleColors.Magneta;
+                    result = ConsoleColors.Magneta;
                     break;
                 case '%': //0x25: //'%'
-                    result = XrConsoleColors.DarkMagneta;
+                    result = ConsoleColors.DarkMagneta;
                     break;
                 case '&': //0x26: //'&'
-                    result = XrConsoleColors.Yellow;
+                    result = ConsoleColors.Yellow;
                     break;
                 case '*': //0x2a: //'*'
-                    result = XrConsoleColors.DarkGray;
+                    result = ConsoleColors.DarkGray;
                     break;
                 case '+': //0x2b: //'+'
-                    result = XrConsoleColors.LightCyan;
+                    result = ConsoleColors.LightCyan;
                     break;
                 case '-': //0x2d: //'-'
-                    result = XrConsoleColors.Lime;
+                    result = ConsoleColors.Lime;
                     break;
                 case '/': //0x2f: //'/'
-                    result = XrConsoleColors.DarkBlue;
+                    result = ConsoleColors.DarkBlue;
                     break;
                 case '=': //0x3d: //'='
-                    result = XrConsoleColors.LightYellow;
+                    result = ConsoleColors.LightYellow;
                     break;
                 case '@': //0x40: //'@'
-                    result = XrConsoleColors.Blue;
+                    result = ConsoleColors.Blue;
                     break;
                 case '^': //0x5e: //'^'
-                    result = XrConsoleColors.DarkGreen;
+                    result = ConsoleColors.DarkGreen;
                     break;
                 case '~': //0x7e: //'~':
-                    result = XrConsoleColors.DarkYellow;
+                    result = ConsoleColors.DarkYellow;
                     break;
                 default:
-                    result = XrConsoleColors.White;
+                    result = ConsoleColors.White;
                     break;
             }
             return result;

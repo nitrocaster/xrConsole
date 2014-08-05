@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.xrConsole = new xr.XrConsole();
+            this.xrConsole = new xr.Console();
             this.SuspendLayout();
             // 
             // xrConsole
@@ -54,6 +54,6 @@
 
         #endregion
 
-        private XrConsole xrConsole;
+        private Console xrConsole;
     }
 }

@@ -9,7 +9,7 @@ namespace xr
             InitializeComponent();
         }
 
-        public XrConsole Console
+        public Console Console
         {
             get { return xrConsole; }
         }
