@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XrConsole", "XrConsole.csproj", "{F59AB5AC-2119-47CB-A905-6F5B3FFFF0A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xrConsole", "xrConsole.csproj", "{F59AB5AC-2119-47CB-A905-6F5B3FFFF0A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
