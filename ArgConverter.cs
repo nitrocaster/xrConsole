@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace xr
 {
-    public static class XrConverter
+    public static class ArgConverter
     {
         public static string ToString(bool b)
         {

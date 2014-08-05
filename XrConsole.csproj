@@ -91,7 +91,7 @@
     <Compile Include="WinAPI\WinAPI.ExternDll.cs" />
     <Compile Include="WinAPI\WinAPI.RECT.cs" />
     <Compile Include="WinAPI\WinAPI.cs" />
-    <Compile Include="XrConverter.cs" />
+    <Compile Include="ArgConverter.cs" />
     <EmbeddedResource Include="ConsoleWindow.resx">
       <DependentUpon>ConsoleWindow.cs</DependentUpon>
       <SubType>Designer</SubType>

@@ -19,14 +19,14 @@ namespace xr.ConsoleCommands
 
         public override string Status
         {
-            get { return XrConverter.ToString(Target.Get()); }
+            get { return ArgConverter.ToString(Target.Get()); }
         }
 
         public override void Execute(string args)
         {
             bool val;
             var arg = args.GetFirstArg() ?? args;
-            if (!XrConverter.ParseBool(arg, out val))
+            if (!ArgConverter.ParseBool(arg, out val))
             {
                 InvalidSyntax();
                 return;
@@ -59,20 +59,20 @@ namespace xr.ConsoleCommands
             get
             {
                 return String.Format("integer value in range [{0},{1}]",
-                    XrConverter.ToString(Min), XrConverter.ToString(Max));
+                    ArgConverter.ToString(Min), ArgConverter.ToString(Max));
             }
         }
 
         public override string Status
         {
-            get { return XrConverter.ToString(Target.Get()); }
+            get { return ArgConverter.ToString(Target.Get()); }
         }
 
         public override void Execute(string args)
         {
             int val;
             var arg = args.GetFirstArg() ?? args;
-            if (!XrConverter.ParseInt32(arg, out val))
+            if (!ArgConverter.ParseInt32(arg, out val))
             {
                 InvalidSyntax();
                 return;
@@ -110,20 +110,20 @@ namespace xr.ConsoleCommands
             get
             {
                 return String.Format("float value in range [{0},{1}]",
-                    XrConverter.ToString(Min), XrConverter.ToString(Max));
+                    ArgConverter.ToString(Min), ArgConverter.ToString(Max));
             }
         }
 
         public override string Status
         {
-            get { return XrConverter.ToString(Target.Get()); }
+            get { return ArgConverter.ToString(Target.Get()); }
         }
 
         public override void Execute(string args)
         {
             float val;
             var arg = args.GetFirstArg() ?? args;
-            if (!XrConverter.ParseSingle(arg, out val))
+            if (!ArgConverter.ParseSingle(arg, out val))
             {
                 InvalidSyntax();
                 return;
@@ -156,7 +156,7 @@ namespace xr.ConsoleCommands
 
         public override string Args
         {
-            get { return String.Format("string up to {0} characters", XrConverter.ToString(MaxLength)); }
+            get { return String.Format("string up to {0} characters", ArgConverter.ToString(MaxLength)); }
         }
 
         public override string Status
@@ -219,7 +219,7 @@ namespace xr.ConsoleCommands
         {
             bool val;
             var arg = args.GetFirstArg() ?? args;
-            if (!XrConverter.ParseBool(arg, out val))
+            if (!ArgConverter.ParseBool(arg, out val))
             {
                 InvalidSyntax();
                 return;
@@ -256,7 +256,7 @@ namespace xr.ConsoleCommands
             get
             {
                 return String.Format("integer value in range [{0},{1}]",
-                    XrConverter.ToString(Min), XrConverter.ToString(Max));
+                    ArgConverter.ToString(Min), ArgConverter.ToString(Max));
             }
         }
 
@@ -264,7 +264,7 @@ namespace xr.ConsoleCommands
         {
             int val;
             var arg = args.GetFirstArg() ?? args;
-            if (!XrConverter.ParseInt32(arg, out val))
+            if (!ArgConverter.ParseInt32(arg, out val))
             {
                 InvalidSyntax();
                 return;
@@ -306,7 +306,7 @@ namespace xr.ConsoleCommands
             get
             {
                 return String.Format("float value in range [{0},{1}]",
-                    XrConverter.ToString(Min), XrConverter.ToString(Max));
+                    ArgConverter.ToString(Min), ArgConverter.ToString(Max));
             }
         }
 
@@ -314,7 +314,7 @@ namespace xr.ConsoleCommands
         {
             float val;
             var arg = args.GetFirstArg() ?? args;
-            if (!XrConverter.ParseSingle(arg, out val))
+            if (!ArgConverter.ParseSingle(arg, out val))
             {
                 InvalidSyntax();
                 return;
@@ -351,7 +351,7 @@ namespace xr.ConsoleCommands
 
         public override string Args
         {
-            get { return String.Format("string up to {0} characters", XrConverter.ToString(MaxLength)); }
+            get { return String.Format("string up to {0} characters", ArgConverter.ToString(MaxLength)); }
         }
 
         public override void Execute(string args)
