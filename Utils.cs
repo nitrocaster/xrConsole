@@ -109,7 +109,6 @@ namespace xr
     }
 }
 
-[ComVisible(true)]
 public static class Utils
 {
     public static readonly char[] WhitespaceChars = { ' ', '\t' };
