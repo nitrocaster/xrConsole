@@ -68,19 +68,6 @@ namespace xr
                 intervals[i] = (int)Math.Ceiling(log);
             }
         }
-
-        public static void RegisterSelf(Console console)
-        {
-            console.AddCommand(
-                new IntegerVar(console, "scroll_interval_init",
-                    new Accessor<int>(() => scrollIntervalInit, i => scrollIntervalInit = i), 1, 1000));
-            console.AddCommand(
-                new IntegerVar(console, "scroll_interval_accel",
-                    new Accessor<int>(() => scrollIntervalAccel, i => scrollIntervalAccel = i), 1, 1000));
-            console.AddCommand(
-                new IntegerVar(console, "scroll_interval_min",
-                    new Accessor<int>(() => scrollIntervalMin, i => scrollIntervalMin = i), 1, 1000));
-        }
         
         public void BeginScrollUp()
         {

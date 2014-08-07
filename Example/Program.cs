@@ -30,7 +30,6 @@ namespace xr.Example
                 new Accessor<string>(Console_GetFontFace, Console_SetFontFace), 255, "Console font face"));
             console.AddCommand(new FloatVar(console, "font_size",
                 new Accessor<float>(Console_GetFontSize, Console_SetFontSize), 5.0f, 20.0f, "Console font size"));
-            ScrollHelper.RegisterSelf(console);
             consoleWnd.ShowDialog();
             if (logger != null)
             {
