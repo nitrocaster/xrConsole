@@ -44,11 +44,7 @@ namespace xr
             ComputeAccelerationTable();
         }
 
-        public ScrollState State
-        {
-            get;
-            private set;
-        }
+        public ScrollState State { get; private set; }
 
         private void ComputeAccelerationTable()
         {
