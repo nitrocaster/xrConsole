@@ -304,6 +304,7 @@ namespace xr
             {
                 lineIndex += availableIncrement;
             }
+            Invalidate();
         }
 
         protected void ScrollUp(int amount)
@@ -325,6 +326,7 @@ namespace xr
             {
                 lineIndex -= availableDecrement;
             }
+            Invalidate();
         }
         
         private void ClearRect(VoidPtr hdc, RECT rect)
@@ -668,6 +670,7 @@ namespace xr
 
         protected override void OnMouseWheel(MouseEventArgs e)
         {
+            base.OnMouseWheel(e);
             if (e.Delta > 0)
             {
                 ScrollUp(3);
@@ -676,8 +679,6 @@ namespace xr
             {
                 ScrollDown(3);
             }
-            base.OnMouseWheel(e);
-            Invalidate();
         }
 
         protected override void OnKeyPress(KeyPressEventArgs e)
@@ -771,6 +772,7 @@ namespace xr
                     break;
 
                 case Keys.PageUp:
+                    e.Handled = false;
                     if (Scroller != null && Scroller.State != ScrollHelper.ScrollState.Up)
                     {
                         Scroller.BeginScrollUp();
@@ -778,6 +780,7 @@ namespace xr
                     break;
 
                 case Keys.PageDown:
+                    e.Handled = false;
                     if (Scroller != null && Scroller.State != ScrollHelper.ScrollState.Down)
                     {
                         Scroller.BeginScrollDown();
