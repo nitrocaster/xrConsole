@@ -274,7 +274,7 @@ namespace xr
                 callback();
             }
         }
-        
+
         protected void ScrollUp()
         {
             ScrollUp(1);
@@ -287,65 +287,43 @@ namespace xr
 
         protected void ScrollDown(int amount)
         {
-            Action callback = () =>
+            if (logger == null)
             {
-                if (logger == null)
-                {
-                    return;
-                }
-                var availableIncrement = lineCount - (lineIndex + 1);
-                if (availableIncrement <= 0)
-                {
-                    return;
-                }
-                if (amount <= availableIncrement)
-                {
-                    lineIndex += amount;
-                }
-                else
-                {
-                    lineIndex += availableIncrement;
-                }
-            };
-            if (InvokeRequired)
+                return;
+            }
+            var availableIncrement = lineCount - (lineIndex + 1);
+            if (availableIncrement <= 0)
             {
-                InvokeSync(callback);
+                return;
+            }
+            if (amount <= availableIncrement)
+            {
+                lineIndex += amount;
             }
             else
             {
-                callback();
+                lineIndex += availableIncrement;
             }
         }
 
         protected void ScrollUp(int amount)
         {
-            Action callback = () =>
+            if (logger == null)
             {
-                if (logger == null)
-                {
-                    return;
-                }
-                var availableDecrement = lineIndex - (lineCount - logBuffer.Count);
-                if (availableDecrement <= 0)
-                {
-                    return;
-                }
-                if (amount <= availableDecrement)
-                {
-                    lineIndex -= amount;
-                }
-                else
-                {
-                    lineIndex -= availableDecrement;
-                }
-            };
-            if (InvokeRequired)
+                return;
+            }
+            var availableDecrement = lineIndex - (lineCount - logBuffer.Count);
+            if (availableDecrement <= 0)
             {
-                InvokeSync(callback);
+                return;
+            }
+            if (amount <= availableDecrement)
+            {
+                lineIndex -= amount;
             }
             else
             {
-                callback();
+                lineIndex -= availableDecrement;
             }
         }
         

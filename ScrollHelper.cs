@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Timers;
+using System.Windows.Forms;
 
 namespace xr
 {
@@ -38,8 +38,7 @@ namespace xr
             this.scrollUp = scrollUp;
             this.scrollDown = scrollDown;
             timer = new Timer();
-            timer.AutoReset = true;
-            timer.Elapsed += OnTick;
+            timer.Tick += OnTick;
             GC.KeepAlive(timer);
             ComputeAccelerationTable();
         }
