@@ -14,9 +14,9 @@ namespace xr
             Down
         }
 
-        private static int scrollIntervalInit = 200;
-        private static int scrollIntervalAccel = 1;
-        private static int scrollIntervalMin = 5;
+        private const int ScrollIntervalInit = 200;
+        private const int ScrollIntervalAccel = 1;
+        private const int ScrollIntervalMin = 5;
         private Action scrollAction;
         private Action scrollDown;
         private Action scrollUp;
@@ -56,12 +56,12 @@ namespace xr
             intervals = new int[16];
             for (var i = 0; i < intervals.Length; ++i)
             {
-                var log = (1.0 - 0.5*Math.Log(i + 1))*scrollIntervalInit;
-                if (log < scrollIntervalMin)
+                var log = (1.0 - 0.5*Math.Log(i + 1))*ScrollIntervalInit;
+                if (log < ScrollIntervalMin)
                 {
                     for (var j = i; j < intervals.Length; ++j)
                     {
-                        intervals[j] = scrollIntervalMin;
+                        intervals[j] = ScrollIntervalMin;
                     }
                     break;
                 }
@@ -134,7 +134,7 @@ namespace xr
             {
                 return;
             }
-            if (accelStepTicks >= scrollIntervalAccel)
+            if (accelStepTicks >= ScrollIntervalAccel)
             {
                 accelStepTicks = 0;
                 timerInterval = intervals[timerIntervalIndex];
