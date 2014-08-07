@@ -137,7 +137,6 @@ namespace xr
                     timerIntervalIndex++;
                 }
                 timer.Interval = timerInterval;
-                timer.Start();
             }
             else
             {
