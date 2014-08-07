@@ -51,7 +51,7 @@ namespace xr
             private set;
         }
 
-        internal void ComputeAccelerationTable()
+        private void ComputeAccelerationTable()
         {
             intervals = new int[16];
             for (var i = 0; i < intervals.Length; ++i)
