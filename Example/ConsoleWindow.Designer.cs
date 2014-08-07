@@ -47,7 +47,7 @@
             this.ClientSize = new System.Drawing.Size(624, 282);
             this.Controls.Add(this.xrConsole);
             this.Name = "ConsoleWindow";
-            this.Text = "ConsoleWindow";
+            this.Text = "xrConsole";
             this.ResumeLayout(false);
 
         }
