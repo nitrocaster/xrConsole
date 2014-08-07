@@ -21,11 +21,7 @@ namespace xr.Windows.Forms
         /// <summary>
         /// Gets a value indicating whether the control is active.
         /// </summary>
-        public bool IsActive
-        {
-            get;
-            private set;
-        }
+        public bool IsActive { get; private set; }
 
         protected override void OnHandleCreated(EventArgs e)
         {
