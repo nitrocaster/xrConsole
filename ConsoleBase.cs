@@ -59,7 +59,14 @@ namespace xr
 
             public string Current
             {
-                get { return buffer[currentIndex]; }
+                get
+                {
+                    if (currentIndex >= 0)
+                    {
+                        return buffer[currentIndex];
+                    }
+                    return null;
+                }
             }
 
             public void Reset()
