@@ -445,6 +445,7 @@ namespace xr
                     e.Handled = true;
                     var editorText = Editor.Text.Trim();
                     Editor.Text = !shiftKey ? FindNextCmd(editorText) : FindPrevCmd(editorText);
+                    Editor.Text += " ";
                     return;
             }
             base.OnKeyDown(e);
