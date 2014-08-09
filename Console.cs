@@ -56,8 +56,8 @@ namespace xr
                                 listener.Abort();
                             }
                         }
-                        int commandsCount = commands.Count;
-                        for (int i = 0; i < commandsCount; i++)
+                        var commandCount = commands.Count;
+                        for (var i = 0; i < commandCount; i++)
                         {
                             RemoveCommand(commands.Keys[0]);
                         }
