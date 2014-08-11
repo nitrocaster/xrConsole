@@ -87,7 +87,6 @@ namespace xr
 
         private const uint CounterColor = 0xe1cdcd;
         private const uint EditorTextColor = 0x69cdcd;
-        private static readonly Size MaxClientSize = Screen.PrimaryScreen.Bounds.Size;
         private static readonly Size ContentPadding = new Size(10, 6);
         private WinAPI.TEXTMETRIC textMetric;
         private VoidPtr hBackBuffer;
@@ -96,6 +95,7 @@ namespace xr
         private VoidPtr hBackBrush;
         private VoidPtr hSelectionBrush;
         private VoidPtr hdcBackBuffer;
+        private Size backBufferSize;
         private VoidPtr hdcWindow;
         protected CommandCache CmdCache;
         protected readonly TextEditor Editor;
@@ -202,14 +202,15 @@ namespace xr
             InitFont(Font);
             hdcBackBuffer = WinAPI.CreateCompatibleDC(hdcWindow);
             Debug.Assert(hdcBackBuffer, "Unable to create Compatible DC");
-            hBackBuffer = WinAPI.CreateCompatibleBitmap(hdcWindow, MaxClientSize.Width, MaxClientSize.Height);
+            backBufferSize = GetGranulatedClientSize();
+            hBackBuffer = WinAPI.CreateCompatibleBitmap(hdcWindow, backBufferSize.Width, backBufferSize.Height);
             Debug.Assert(hBackBuffer, "Unable to create Compatible Bitmap");
             hBackBrush = WinAPI.GetStockObject(StockObjects.BLACK_BRUSH);
             Debug.Assert(hBackBrush, "Unable to create SolidBrush");
             hSelectionBrush = WinAPI.CreateSolidBrush(ConsoleColors.DarkGray);
             Debug.Assert(hSelectionBrush, "Unable to create SolidBrush");
             WinAPI.SelectObject(hdcBackBuffer, hBackBuffer);
-            ClearRect(hdcBackBuffer, RECT.FromSize(MaxClientSize));
+            ClearRect(hdcBackBuffer, RECT.FromSize(backBufferSize));
             WinAPI.SetBkMode(hdcBackBuffer, WinAPI.BkModeTypes.OPAQUE);
             WinAPI.SetBkColor(hdcBackBuffer, ConsoleColors.Black);
         }
@@ -242,7 +243,32 @@ namespace xr
                 base.Dispose(disposing);
             }
         }
-        
+
+        private Size GetGranulatedClientSize()
+        {
+            const int granularity = 32;
+            var width = ClientSize.Width / granularity * granularity;
+            if (width < ClientSize.Width)
+            {
+                width += granularity;
+            }
+            var height = ClientSize.Height / granularity * granularity;
+            if (height < ClientSize.Height)
+            {
+                height += granularity;
+            }
+            return new Size(width, height);
+        }
+
+        private void ResizeBackBuffer(Size newSize)
+        {
+            WinAPI.DeleteObject(hBackBuffer);
+            hBackBuffer = WinAPI.CreateCompatibleBitmap(hdcWindow, newSize.Width, newSize.Height);
+            backBufferSize = newSize;
+            WinAPI.SelectObject(hdcBackBuffer, hBackBuffer);
+            ClearRect(hdcBackBuffer, RECT.FromSize(newSize));
+        }
+
         private void MessageLogged(string msg)
         {
             Action callback = () =>
@@ -367,6 +393,11 @@ namespace xr
 
         protected override void OnResize(EventArgs e)
         {
+            var newSize = GetGranulatedClientSize();
+            if (newSize != backBufferSize)
+            {
+                ResizeBackBuffer(newSize);
+            }
             forceRedraw = true;
             base.OnResize(e);
         }
