@@ -111,7 +111,7 @@ namespace xr
         {
             logBuffer = new CircularBuffer<string>(256);
             AttachLogger(logger);
-            SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint |ControlStyles.ResizeRedraw, true);
+            SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw, true);
             Editor = new TextEditor(512);
             if (!DesignMode)
             {
