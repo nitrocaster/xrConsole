@@ -763,11 +763,11 @@ namespace xr
                     break;
 
                 case Keys.Left:
-                    Editor.MoveCaretLeft(shiftKey);
+                    Editor.MoveCaretLeft(shiftKey, ctrlKey);
                     break;
 
                 case Keys.Right:
-                    Editor.MoveCaretRight(shiftKey);
+                    Editor.MoveCaretRight(shiftKey, ctrlKey);
                     break;
 
                 case Keys.Home:

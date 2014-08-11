@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Windows.Forms;
 
 namespace xr
@@ -209,14 +210,75 @@ namespace xr
             MoveCaret(buffer.Length - cursorPos, shift);
         }
 
-        public void MoveCaretLeft(bool shift)
+        public void MoveCaretLeft(bool shift, bool ctrl = false)
         {
-            MoveCaret(-1, shift);
+            var offset = -1;
+            if (ctrl)
+            {
+                offset = BreakTest(-1) - cursorPos;
+            }
+            MoveCaret(offset, shift);
         }
 
-        public void MoveCaretRight(bool shift)
+        public void MoveCaretRight(bool shift, bool ctrl = false)
         {
-            MoveCaret(1, shift);
+            var offset = 1;
+            if (ctrl)
+            {
+                offset = BreakTest(1) - cursorPos;
+            }
+            MoveCaret(offset, shift);
+        }
+
+        private int BreakTest(int dir)
+        {
+            const string breakChars = "., \"~`%^&*_+-=/|\\#$()[]{}<>:;!?";
+            Predicate<char> isBreakChar = c => breakChars.IndexOf(c) >= 0;
+            if (buffer.Length == 0)
+            {
+                return -1;
+            }
+            var pos = cursorPos;
+            if (dir < 0)
+            {
+                if (pos <= 1)
+                {
+                    return 0;
+                }
+                var prevPos = pos;
+                while (pos >= 1 && !isBreakChar(buffer[pos - 1]))
+                {
+                    pos--;
+                }
+                if (pos != prevPos)
+                {
+                    return pos;
+                }
+                while (pos >= 1 && isBreakChar(buffer[pos - 1]))
+                {
+                    pos--;
+                }
+                while (pos >= 1 && !isBreakChar(buffer[pos - 1]))
+                {
+                    pos--;
+                }
+            }
+            else
+            {
+                if (pos >= buffer.Length - 1)
+                {
+                    return buffer.Length;
+                }
+                while (pos < buffer.Length && !isBreakChar(buffer[pos]))
+                {
+                    pos++;
+                }
+                while (pos < buffer.Length && isBreakChar(buffer[pos]))
+                {
+                    pos++;
+                }
+            }
+            return pos;
         }
 
         private void MoveCaret(int amount, bool shift)
