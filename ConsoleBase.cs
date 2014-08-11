@@ -23,6 +23,20 @@ namespace xr
                 buffer = new CircularBuffer<string>(size);
             }
 
+            public int Capacity
+            {
+                get { return buffer.Capacity; }
+                set
+                {
+                    if (value == buffer.Capacity)
+                    {
+                        return;
+                    }
+                    buffer.Capacity = value;
+                    Reset();
+                }
+            }
+
             public string GetNext()
             {
                 if (buffer.Count == 0 || currentIndex < 0)
