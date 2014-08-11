@@ -354,7 +354,7 @@ namespace xr
                     ResetSelection();
                 }
             }
-            else
+            else if (!shift)
             {
                 ResetSelection();
             }
