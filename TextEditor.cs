@@ -389,7 +389,7 @@ namespace xr
                 {
                     return 0;
                 }
-                if (amount <= cursorPos)
+                if (cursorPos + amount >= 0)
                 {
                     cursorPos += amount;
                     return amount;
