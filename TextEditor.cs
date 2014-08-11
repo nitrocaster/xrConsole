@@ -71,27 +71,6 @@ namespace xr
             }
         }
 
-        public void Insert(string s)
-        {
-            if (selection.Length == 1)
-            {
-                Delete();
-                buffer.Insert(cursorPos, s);
-            }
-            else if (selection.Length != 0)
-            {
-                Delete();
-                buffer.Insert(cursorPos, s);
-                MoveCaretRight(false);
-            }
-            else
-            {
-                buffer.Insert(cursorPos, s);
-                MoveCaretRight(false);
-            }
-            ResetSelection();
-        }
-
         public void Insert(char c)
         {
             if (selection.Length == 1)
