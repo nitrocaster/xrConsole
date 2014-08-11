@@ -858,6 +858,10 @@ namespace xr
                     Editor.Delete(ctrlKey);
                     e.SuppressKeyPress = true;
                     break;
+
+                case Keys.Insert:
+                    Editor.ToggleEditMode();
+                    break;
                     
                 default:
                     e.Handled = false;

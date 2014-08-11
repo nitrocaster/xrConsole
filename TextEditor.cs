@@ -21,6 +21,7 @@ namespace xr
         private StringBuilder buffer;
         private SelectionRange selection;
         private int cursorPos;
+        private bool insertMode = false;
 
         public TextEditor(int capacity)
         {
@@ -106,7 +107,14 @@ namespace xr
             }
             else
             {
-                buffer.Insert(cursorPos, c);
+                if (insertMode && cursorPos < buffer.Length)
+                {
+                    buffer[cursorPos] = c;
+                }
+                else
+                {
+                    buffer.Insert(cursorPos, c);
+                }
                 MoveCaretRight(false);
             }
             ResetSelection();
@@ -211,6 +219,11 @@ namespace xr
         public void End(bool shift)
         {
             MoveCaret(buffer.Length - cursorPos, shift);
+        }
+
+        public void ToggleEditMode()
+        {
+            insertMode = !insertMode;
         }
 
         public void MoveCaretLeft(bool shift, bool ctrl = false)
