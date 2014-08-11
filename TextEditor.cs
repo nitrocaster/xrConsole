@@ -240,15 +240,6 @@ namespace xr
                 {
                     return 0;
                 }
-                var prevPos = pos;
-                while (pos >= 1 && !isBreakChar(buffer[pos - 1]))
-                {
-                    pos--;
-                }
-                if (pos != prevPos)
-                {
-                    return pos;
-                }
                 while (pos >= 1 && isBreakChar(buffer[pos - 1]))
                 {
                     pos--;
@@ -264,11 +255,11 @@ namespace xr
                 {
                     return buffer.Length;
                 }
-                while (pos < buffer.Length && !isBreakChar(buffer[pos]))
+                while (pos < buffer.Length && isBreakChar(buffer[pos]))
                 {
                     pos++;
                 }
-                while (pos < buffer.Length && isBreakChar(buffer[pos]))
+                while (pos < buffer.Length && !isBreakChar(buffer[pos]))
                 {
                     pos++;
                 }
