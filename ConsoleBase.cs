@@ -18,9 +18,9 @@ namespace xr
             private CircularBuffer<string> buffer;
             private int currentIndex = -1;
 
-            public CommandCache(int size = 64)
+            public CommandCache(int capacity = 64)
             {
-                buffer = new CircularBuffer<string>(size);
+                buffer = new CircularBuffer<string>(capacity);
             }
 
             public int Capacity
