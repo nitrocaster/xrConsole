@@ -470,7 +470,7 @@ namespace xr
                 0,
                 top,
                 ClientSize.Width,
-                ClientSize.Height - 3*lineHeight - ContentPadding.Height
+                ClientSize.Height - 2*lineHeight - ContentPadding.Height
             );
             return rect;
         }
