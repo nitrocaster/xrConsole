@@ -22,7 +22,6 @@ namespace xr
         private long accelStepTicks;
         private int[] intervals;
         private Timer timer;
-        private int timerInterval;
         private int timerIntervalIndex;
 
         public ScrollHelper(Action scrollUp, Action scrollDown)
@@ -96,7 +95,6 @@ namespace xr
             StopTimer();
             scrollAction = DefaultScrollAction;
             State = ScrollState.None;
-            timerInterval = 0;
         }
 
         private void OnTick(object sender, EventArgs e)
@@ -108,8 +106,7 @@ namespace xr
         private void StartTimer()
         {
             timerIntervalIndex = 0;
-            timerInterval = intervals[timerIntervalIndex];
-            timer.Interval = timerInterval;
+            timer.Interval = intervals[timerIntervalIndex];
             timer.Start();
         }
 
@@ -131,16 +128,15 @@ namespace xr
             if (accelStepTicks >= ScrollIntervalAccel)
             {
                 accelStepTicks = 0;
-                timerInterval = intervals[timerIntervalIndex];
                 if (timerIntervalIndex + 1 < intervals.Length)
                 {
                     timerIntervalIndex++;
                 }
-                timer.Interval = timerInterval;
+                timer.Interval = intervals[timerIntervalIndex];
             }
             else
             {
-                accelStepTicks += timerInterval;
+                accelStepTicks += timer.Interval;
             }
         }
 
