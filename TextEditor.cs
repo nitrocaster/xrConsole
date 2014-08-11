@@ -112,7 +112,7 @@ namespace xr
             ResetSelection();
         }
 
-        public void Delete()
+        public void Delete(bool ctrl = false)
         {
             var bufferLength = buffer.Length;
             if (cursorPos == bufferLength && selection.Length == 0)
@@ -127,15 +127,16 @@ namespace xr
                     cursorPos = selection.StartIndex;
                     buffer.Remove(selection.StartIndex, selection.Length);
                 }
-                else // delete one char from the right
+                else // delete from the right
                 {
-                    buffer.Remove(cursorPos, 1);
+                    var endIndex = ctrl ? BreakTest(1) : cursorPos + 1;
+                    buffer.Remove(cursorPos, endIndex - cursorPos);
                 }
             }
             ResetSelection();
         }
 
-        public void Backspace()
+        public void Backspace(bool ctrl = false)
         {
             if (cursorPos == 0 && selection.Length == 0)
             {
@@ -149,10 +150,12 @@ namespace xr
                     cursorPos = selection.StartIndex;
                     buffer.Remove(selection.StartIndex, selection.Length);
                 }
-                else // delete one char from the left
+                else // delete from the left
                 {
-                    buffer.Remove(cursorPos - 1, 1);
-                    MoveCaretLeft(false);
+                    var startIndex = ctrl ? BreakTest(-1) : cursorPos - 1;
+                    var length = cursorPos - startIndex;
+                    MoveCaret(-length, false);
+                    buffer.Remove(startIndex, length);
                 }
             }
             ResetSelection();

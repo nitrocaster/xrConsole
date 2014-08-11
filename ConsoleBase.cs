@@ -850,12 +850,12 @@ namespace xr
                     break;
 
                 case Keys.Back:
-                    Editor.Backspace();
+                    Editor.Backspace(ctrlKey);
                     e.SuppressKeyPress = true;
                     break;
 
                 case Keys.Delete:
-                    Editor.Delete();
+                    Editor.Delete(ctrlKey);
                     e.SuppressKeyPress = true;
                     break;
                     
