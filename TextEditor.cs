@@ -324,7 +324,7 @@ namespace xr
                     ResetSelection();
                 }
             }
-            else // amount < 0
+            else if (amount < 0)
             {
                 if (shift) // expand/shrink selection by <amount> chars to the left
                 {
@@ -361,6 +361,10 @@ namespace xr
                     }
                     ResetSelection();
                 }
+            }
+            else
+            {
+                ResetSelection();
             }
         }
         
