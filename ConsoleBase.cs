@@ -454,7 +454,8 @@ namespace xr
                     WinAPI.SetTextColor(hdcBackBuffer,
                         cursorSelected ? ConsoleColors.Lime : ConsoleColors.Default);
                 }
-                WinAPI.TextOut(hdcBackBuffer, markerSize.Width + cursorOffset.Width, posY, "_", 1);
+                WinAPI.TextOut(hdcBackBuffer, markerSize.Width + cursorOffset.Width,
+                    posY + textMetric.tmDescent, "_", 1);
                 #endregion
             }
             WinAPI.SetBkMode(hdcBackBuffer, prevMode);
