@@ -322,6 +322,18 @@ namespace xr
             }
         }
 
+        public int CommandHistoryCapacity
+        {
+            get { return CmdCache.Capacity; }
+            set { CmdCache.Capacity = value; }
+        }
+
+        public int LogHistoryCapacity
+        {
+            get { return logBuffer.Capacity; }
+            set { logBuffer.Capacity = value; }
+        }
+
         protected void ScrollUp()
         {
             ScrollUp(1);
