@@ -239,7 +239,7 @@ namespace xr
             Predicate<char> isBreakChar = c => breakChars.IndexOf(c) >= 0;
             if (buffer.Length == 0)
             {
-                return -1;
+                return 0;
             }
             var pos = cursorPos;
             if (dir < 0)
