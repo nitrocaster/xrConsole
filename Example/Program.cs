@@ -30,6 +30,10 @@ namespace xr.Example
                 new Accessor<string>(Console_GetFontFace, Console_SetFontFace), 255, "Console font face"));
             console.AddCommand(new FloatVar(console, "font_size",
                 new Accessor<float>(Console_GetFontSize, Console_SetFontSize), 5.0f, 20.0f, "Console font size"));
+            console.Header.Add(new ConsoleLabel
+                { Text = "The quick brown fox jumps over the lazy dog", Color = ConsoleColors.DarkBlue });
+            console.Header.Add(new ConsoleLabel
+                { Text = "Another useful label", Color = ConsoleColors.DarkMagneta });
             consoleWnd.ShowDialog();
             if (logger != null)
             {
