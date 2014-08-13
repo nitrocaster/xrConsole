@@ -686,7 +686,8 @@ namespace xr
             }
             WinAPI.SelectObject(hdcBackBuffer, hFont);
             var logRect = GetLogRect();
-            var posY = logRect.Bottom - textMetric.tmHeight * (lineIndex - range.Max + 2);
+            var lineHeight = textMetric.tmHeight;
+            var posY = logRect.Bottom - lineHeight * (lineIndex - range.Max + 2);
             // draw lines from bottom to top
             for (var i = range.Max - 1; i >= range.Min; --i)
             {
@@ -698,14 +699,16 @@ namespace xr
                     WinAPI.SetTextColor(hdcBackBuffer, lineColor);
                     if (lineColor != ConsoleColors.Default && line.Length >= 2)
                     {
-                        WinAPI.TextOut(hdcBackBuffer, logRect.Left + ContentPadding.Width, posY, pLine + 2, line.Length - 2);
+                        WinAPI.TextOut(hdcBackBuffer, logRect.Left + ContentPadding.Width, posY,
+                            pLine + 2, line.Length - 2);
                     }
                     else
                     {
-                        WinAPI.TextOut(hdcBackBuffer, logRect.Left + ContentPadding.Width, posY, pLine, line.Length);
+                        WinAPI.TextOut(hdcBackBuffer, logRect.Left + ContentPadding.Width, posY,
+                            pLine, line.Length);
                     }
                 }
-                posY -= textMetric.tmHeight;
+                posY -= lineHeight;
             }
         }
         
@@ -735,7 +738,7 @@ namespace xr
                 return;
             }
             var spacingRect = new RECT(logRect.Left, logRect.Top, logRect.Right,
-                logRect.Bottom - visibleLineCount * textMetric.tmHeight);
+                logRect.Bottom - visibleLineCount * lineHeight);
             #if XrConsole_use_optimized_rendering
             if (!forceRedraw)
             {
@@ -746,13 +749,13 @@ namespace xr
                 if (scrolledLines.IsValid && !scrolledLines.IsEmpty && scrollDelta != 0)
                 {
                     WinAPI.ScrollDC(hdcBackBuffer,
-                        dx: 0, dy: scrollDelta * textMetric.tmHeight,
+                        dx: 0, dy: scrollDelta * lineHeight,
                         lprcScroll: &logRect, lprcClip: &logRect,
                         hrgnUpdate: null, lprcUpdate: null);
                     if (renderedLines.Min < firstBufferedLine)
                     {
                         var rect = logRect;
-                        rect.Bottom -= (lineIndex - firstVisibleLine + 1) * textMetric.tmHeight;
+                        rect.Bottom -= (lineIndex - firstVisibleLine + 1) * lineHeight;
                         ClearRect(hdcBackBuffer, rect);
                     }
                     // cut lines that've been already rendered
@@ -760,13 +763,13 @@ namespace xr
                     {
                         requiredLines.Min = scrolledLines.Max;
                         // clear space below scrolled lines
-                        logRect.Top = logRect.Bottom + scrollDelta * textMetric.tmHeight;
+                        logRect.Top = logRect.Bottom + scrollDelta * lineHeight;
                     }
                     else
                     {
                         requiredLines.Max = scrolledLines.Min;
                         // clear space above scrolled lines
-                        logRect.Bottom -= scrolledLines.Size * textMetric.tmHeight;
+                        logRect.Bottom -= scrolledLines.Size * lineHeight;
                     }
                 }
             }
