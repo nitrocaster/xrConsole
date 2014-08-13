@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgConverter.cs" />
+    <Compile Include="ConsoleLabel.cs" />
     <Compile Include="Console.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -53,6 +54,7 @@
     <Compile Include="ConsoleColors.cs" />
     <Compile Include="ConsoleCommand.cs" />
     <Compile Include="ConsoleCommands.cs" />
+    <Compile Include="ConsoleLabelCollection.cs" />
     <Compile Include="DisposeHelper.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
