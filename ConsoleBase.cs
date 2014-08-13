@@ -1,5 +1,7 @@
 ﻿#define XrConsole_use_optimized_rendering
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
@@ -10,6 +12,106 @@ namespace xr
 {
     using RECT = WinAPI.RECT;
     using StockObjects = WinAPI.StockObjects;
+
+    public class ConsoleLabel
+    {
+        private string text;
+
+        public ConsoleLabel()
+        {
+            text = String.Empty;
+            Color = ConsoleColors.Default;
+        }
+
+        public string Text
+        {
+            get { return text; }
+            set
+            {
+                if (value == text)
+                {
+                    return;
+                }
+                text = value;
+                NeedRedraw = true;
+            }
+        }
+
+        public uint Color { get; set; }
+
+        internal bool NeedRedraw { get; set; }
+    }
+
+    public class ConsoleLabelCollection : IList<ConsoleLabel>
+    {
+        private List<ConsoleLabel> labels = new List<ConsoleLabel>();
+
+        public int Count
+        {
+            get { return labels.Count; }
+        }
+
+        public ConsoleLabel this[int i]
+        {
+            get { return labels[i]; }
+            set { labels[i] = value; }
+        }
+
+        public void Add(ConsoleLabel label)
+        {
+            labels.Add(label);
+        }
+
+        public bool Remove(ConsoleLabel label)
+        {
+            return labels.Remove(label);
+        }
+
+        public void RemoveAt(int index)
+        {
+            labels.RemoveAt(index);
+        }
+
+        public int IndexOf(ConsoleLabel item)
+        {
+            return labels.IndexOf(item);
+        }
+
+        public void Insert(int index, ConsoleLabel item)
+        {
+            labels.Insert(index, item);
+        }
+        
+        public void Clear()
+        {
+            labels.Clear();
+        }
+
+        public bool Contains(ConsoleLabel item)
+        {
+            return labels.Contains(item);
+        }
+
+        public void CopyTo(ConsoleLabel[] array, int arrayIndex)
+        {
+            labels.CopyTo(array, arrayIndex);
+        }
+
+        public bool IsReadOnly
+        {
+            get { return false; }
+        }
+
+        public IEnumerator<ConsoleLabel> GetEnumerator()
+        {
+            return labels.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return labels.GetEnumerator();
+        }
+    }
 
     public abstract unsafe class ConsoleBase : ControlEx
     {
@@ -99,6 +201,7 @@ namespace xr
             }
         }
 
+        public ConsoleLabelCollection Header { get; private set; }
         private const uint CounterColor = 0xe1cdcd;
         private const uint EditorTextColor = 0x69cdcd;
         private static readonly Size ContentPadding = new Size(10, 6);
@@ -123,6 +226,7 @@ namespace xr
 
         public ConsoleBase(ILogger logger = null)
         {
+            Header = new ConsoleLabelCollection();
             logBuffer = new CircularBuffer<string>(256);
             AttachLogger(logger);
             SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw, true);
@@ -440,8 +544,9 @@ namespace xr
                 WinAPI.TextAlignTypes.TA_NOUPDATECP;
             // clear backbuffer except log rectangle
             WinAPI.SelectObject(hdcBackBuffer, hBackBuffer);
-            var logRect    = GetLogRect();
-            var topRect    = RECT.FromXYWH(0, 0, ClientRectangle.Width, logRect.Top);
+            var logRect = GetLogRect();
+            var headerRect = GetHeaderRect();
+            var topRect = RECT.FromXYWH(0, 0, ClientRectangle.Width, headerRect.Top);
             var bottomRect = RECT.FromXYWH(0, logRect.Bottom,
                 ClientRectangle.Width, ClientRectangle.Height - logRect.Bottom);
             ClearRect(hdcBackBuffer, topRect);
@@ -451,6 +556,7 @@ namespace xr
             WinAPI.SetTextAlign(hdcBackBuffer, alignRight);
             DrawCounter();
             WinAPI.SetTextAlign(hdcBackBuffer, alignLeft);
+            DrawHeader();
             DrawCommandLine();
             DrawLog();
             RedrawWindow();
@@ -518,19 +624,44 @@ namespace xr
             WinAPI.SetBkMode(hdcBackBuffer, prevMode);
         }
 
-        private RECT GetLogRect()
+        private RECT GetHeaderRect()
         {
             var lineHeight = textMetric.tmHeight;
-            var rectHeight = ClientSize.Height - 3*lineHeight - 2*ContentPadding.Height;
-            var top = ContentPadding.Height + rectHeight - rectHeight/lineHeight*lineHeight;
+            var rectHeight = Header.Count * lineHeight;
+            if (Header.Count > 0)
+            {
+                rectHeight += lineHeight;
+            }
+            var top = ContentPadding.Height;
+            var logRectBottom = GetLogRectBottom();
+            var rectBottom = Math.Min(top + rectHeight, logRectBottom);
             var rect = new RECT
             (
                 0,
                 top,
                 ClientSize.Width,
-                ClientSize.Height - 2*lineHeight - ContentPadding.Height
+                rectBottom
             );
             return rect;
+        }
+
+        private RECT GetLogRect()
+        {
+            var headerRect = GetHeaderRect();
+            var top = headerRect.Bottom;
+            var rect = new RECT
+            (
+                0,
+                top,
+                ClientSize.Width,
+                GetLogRectBottom()
+            );
+            return rect;
+        }
+
+        private int GetLogRectBottom()
+        {
+            return ClientSize.Height - 2 * textMetric.tmHeight - ContentPadding.Height;
         }
 
         private string GetLineByIndex(int i)
@@ -587,7 +718,9 @@ namespace xr
                 return;
             }
             // cut out partially visible lines
-            var firstVisibleLine = lineIndex - logRect.Height / textMetric.tmHeight + 1;
+            var lineHeight = textMetric.tmHeight;
+            var visibleLineCount = logRect.Height / lineHeight;
+            var firstVisibleLine = lineIndex - visibleLineCount + 1;
             var firstBufferedLine = lineCount - logBuffer.Count;
             if (firstVisibleLine < firstBufferedLine)
             {
@@ -601,6 +734,8 @@ namespace xr
             {
                 return;
             }
+            var spacingRect = new RECT(logRect.Left, logRect.Top, logRect.Right,
+                logRect.Bottom - visibleLineCount * textMetric.tmHeight);
             #if XrConsole_use_optimized_rendering
             if (!forceRedraw)
             {
@@ -636,13 +771,47 @@ namespace xr
                 }
             }
             #endif
+            ClearRect(hdcBackBuffer, spacingRect);
             ClearRect(hdcBackBuffer, logRect);
             DrawLogLines(requiredLines);
             renderedLines.Min = firstVisibleLine;
             renderedLines.Max = lineIndex + 1;
             forceRedraw = false;
         }
-        
+
+        private void DrawHeader()
+        {
+            if (Header.Count == 0)
+            {
+                return;
+            }
+            var headerRect = GetHeaderRect();
+            var lineHeight = textMetric.tmHeight;
+            var maxVisibleLineCount = (headerRect.Height - lineHeight)/lineHeight;
+            var visibleLineCount = Math.Min(Header.Count, maxVisibleLineCount);
+            var posY = headerRect.Top;
+            var posTextX = headerRect.Left + ContentPadding.Width;
+            WinAPI.SetBkColor(hdcBackBuffer, ConsoleColors.Black);
+            for (var i = 0; i < visibleLineCount; i++)
+            {
+                var label = Header[i];
+                if (forceRedraw || label.NeedRedraw)
+                {
+                    var lineRect = new RECT(headerRect.Left, posY, headerRect.Right, posY + lineHeight);
+                    ClearRect(hdcBackBuffer, lineRect);
+                    WinAPI.SetTextColor(hdcBackBuffer, label.Color);
+                    WinAPI.TextOut(hdcBackBuffer, posTextX, posY, label.Text, label.Text.Length);
+                    label.NeedRedraw = false;
+                }
+                posY += lineHeight;
+            }
+            var spacingRect = new RECT(headerRect.Left, posY, headerRect.Right, headerRect.Bottom);
+            if (spacingRect.Size.Height > 0)
+            {
+                ClearRect(hdcBackBuffer, spacingRect);
+            }
+        }
+
         private void DrawCounter()
         {
             var posY = ClientSize.Height - textMetric.tmHeight - ContentPadding.Height;
