@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace xr
 {
-    public sealed class ScrollHelper : IDisposable
+    internal sealed class ScrollHelper : IDisposable
     {
         public enum ScrollState
         {

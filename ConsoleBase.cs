@@ -114,7 +114,7 @@ namespace xr
         private VoidPtr hdcWindow;
         protected CommandCache CmdCache;
         protected readonly TextEditor Editor;
-        protected readonly ScrollHelper Scroller;
+        private readonly ScrollHelper scroller;
         private ILogger logger;
         private CircularBuffer<string> logBuffer;
         private int lineCount;
@@ -131,7 +131,7 @@ namespace xr
             Editor = new TextEditor(512);
             if (!DesignMode)
             {
-                Scroller = new ScrollHelper(ScrollUp, ScrollDown);
+                scroller = new ScrollHelper(ScrollUp, ScrollDown);
             }
             CmdCache = new CommandCache();
         }
@@ -240,9 +240,9 @@ namespace xr
                     if (disposing)
                     {
                         DetachLogger();
-                        if (Scroller != null)
+                        if (scroller != null)
                         {
-                            Scroller.Dispose();
+                            scroller.Dispose();
                         }
                         WinAPI.DeleteObject(hFont);
                         WinAPI.DeleteObject(hBackBuffer);
@@ -908,17 +908,17 @@ namespace xr
 
                 case Keys.PageUp:
                     e.Handled = false;
-                    if (Scroller != null && Scroller.State != ScrollHelper.ScrollState.Up)
+                    if (scroller != null && scroller.State != ScrollHelper.ScrollState.Up)
                     {
-                        Scroller.BeginScrollUp();
+                        scroller.BeginScrollUp();
                     }
                     break;
 
                 case Keys.PageDown:
                     e.Handled = false;
-                    if (Scroller != null && Scroller.State != ScrollHelper.ScrollState.Down)
+                    if (scroller != null && scroller.State != ScrollHelper.ScrollState.Down)
                     {
-                        Scroller.BeginScrollDown();
+                        scroller.BeginScrollDown();
                     }
                     break;
 
@@ -1009,9 +1009,9 @@ namespace xr
                 case Keys.PageUp:
                 case Keys.PageDown:
                     e.Handled = true;
-                    if (Scroller != null)
+                    if (scroller != null)
                     {
-                        Scroller.EndScroll();
+                        scroller.EndScroll();
                     }
                     break;
             }
