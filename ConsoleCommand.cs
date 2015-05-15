@@ -68,10 +68,6 @@ namespace xr
         /// <param name="args"></param>
         public abstract void Execute(string args);
 
-        protected void InvalidSyntax()
-        {
-            Console.Msg("~ Invalid syntax in call to '{0}'", Name);
-            Console.Msg("~ Valid arguments: " + Args);
-        }
+        protected void InvalidSyntax() { Console.PrintInvalidSyntax(this); }
     }
 }

@@ -19,17 +19,19 @@ namespace xr
         private Thread listener;
         private volatile bool listenInput = true;
         private bool tabKeyState = false;
+        private readonly ILinePrefixProvider logPrefixProvider;
 
         public Console()
-            : this(null)
+            : this(new XRayLineColorProvider(), new XRayLinePrefixProvider(), null)
         {
         }
 
-        public Console(ILogger logger)
-            : base(logger)
+        public Console(ILineColorProvider colorProvider, ILinePrefixProvider logPrefixProvider, ILogger logger)
+            : base(colorProvider, logger)
         {
             if (!DesignMode)
             {
+                this.logPrefixProvider = logPrefixProvider;
                 commandQueue = new Queue<string>(CommandQueueSize);
                 commandTrie = new TrieNode<char>();
                 commands = new SortedList<string, ConsoleCommand>();
@@ -124,23 +126,29 @@ namespace xr
             var command = GetCommandByName(cmdName);
             if (command == null)
             {
-                Msg("! Unknown command: " + cmdName);
+                Msg("{0}Unknown command: {1}", logPrefixProvider.UnknownCommand, cmdName);
                 return;
             }
             if (!command.Flags.HasFlag(ConsoleCommandFlags.Enabled))
             {
-                Msg("! Command disabled.");
+                Msg(logPrefixProvider.DisabledCommand + "Command disabled.");
                 return;
             }
             if (command.Flags.HasFlag(ConsoleCommandFlags.Variable))
             {
                 if (cmdArgs.Length == 0)
                 {
-                    Msg("- {0} {1}", command.Name, command.Status);
+                    Msg("{0}{1} {2}", logPrefixProvider.CommandStatus, command.Name, command.Status);
                     return;
                 }
             }
             command.Execute(cmdArgs);
+        }
+
+        internal void PrintInvalidSyntax(ConsoleCommand cmd)
+        {
+            Msg("{0}Invalid syntax in call to '{1}'", logPrefixProvider.InvalidSyntax, cmd.Name);
+            Msg("{0}Valid arguments: {1}", logPrefixProvider.InvalidSyntax, cmd.Args);
         }
 
         private void Console_Help(string args)
@@ -150,18 +158,18 @@ namespace xr
                 var cmd = GetCommandByName(args);
                 if (cmd == null)
                 {
-                    Msg("! Unknown command: " + args);
+                    Msg("{0}Unknown command: {1}", logPrefixProvider.UnknownCommand, args);
                     return;
                 }
                 PrintCommandInfo(cmd);
                 return;
             }
-            Msg("- --- Command listing start ---");
+            Msg(logPrefixProvider.CommandListing + "--- Command listing start ---");
             foreach (var cmd in commands.Values)
             {
                 PrintCommandInfo(cmd);
             }
-            Msg("- --- Command listing end ---");
+            Msg(logPrefixProvider.CommandListing + "--- Command listing end ---");
         }
 
         private void PrintCommandInfo(ConsoleCommand cmd)
@@ -172,7 +180,7 @@ namespace xr
                 cmd.Args,
                 cmd.Info);
         }
-
+        
         private ConsoleCommand GetCommandByName(string commandName)
         {
             return commands.ContainsKey(commandName) ?
@@ -182,7 +190,7 @@ namespace xr
         private void LogCommand(string args)
         {
             CmdCache.Push(args);
-            Msg("@ " + args);
+            Msg(logPrefixProvider.CommandInput + args);
         }
         
         public void AddCommand(ConsoleCommand command)
