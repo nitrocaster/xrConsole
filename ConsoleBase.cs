@@ -122,6 +122,7 @@ namespace xr
         private IntRange renderedLines;
         private bool forceRedraw = false;
         private readonly ILineColorProvider colorProvider;
+        private bool commandLineEnabled = true;
 
         public ConsoleBase(ILineColorProvider colorProvider, ILogger logger = null)
         {
@@ -190,7 +191,20 @@ namespace xr
             }
             return _logger;
         }
-        
+
+        public bool CommandLineEnabled
+        {
+            get { return commandLineEnabled; }
+            set
+            {
+                if (value == commandLineEnabled)
+                    return;
+                commandLineEnabled = value;
+                forceRedraw = true;
+                Invalidate();
+            }
+        }
+
         private void InitFont(Font font)
         {
             if (hFont)
@@ -459,7 +473,8 @@ namespace xr
             DrawCounter();
             WinAPI.SetTextAlign(hdcBackBuffer, alignLeft);
             DrawHeader();
-            DrawCommandLine();
+            if (commandLineEnabled)
+                DrawCommandLine();
             DrawLog();
             RedrawWindow();
         }
@@ -563,7 +578,11 @@ namespace xr
 
         private int GetLogRectBottom()
         {
-            return ClientSize.Height - 2 * textMetric.tmHeight - ContentPadding.Height;
+            var lineHeight = textMetric.tmHeight;
+            var result = ClientSize.Height - lineHeight - ContentPadding.Height;
+            if (commandLineEnabled)
+                result -= lineHeight;
+            return result;
         }
 
         private string GetLineByIndex(int i)
@@ -715,7 +734,9 @@ namespace xr
 
         private void DrawCounter()
         {
-            var posY = ClientSize.Height - textMetric.tmHeight - ContentPadding.Height;
+            var posY = ClientSize.Height - ContentPadding.Height;
+            if (commandLineEnabled)
+                posY -= textMetric.tmHeight;
             var formatString = DesignMode ? "[0/0]" : String.Format("[{0}/{1}]", lineIndex + 1, lineCount);
             var lineWidth = GetLineWidth();
             WinAPI.SetBkColor(hdcBackBuffer, ConsoleColors.Black);
@@ -758,6 +779,11 @@ namespace xr
 
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
+            if (!commandLineEnabled)
+            {
+                base.OnKeyPress(e);
+                return;
+            }
             switch (e.KeyChar)
             {
                 case '\t': // tab
@@ -806,6 +832,8 @@ namespace xr
             switch (e.KeyCode)
             {
                 case Keys.Up:
+                    if (!commandLineEnabled)
+                        goto default;
                     string prevCmd;
                     if (Editor.Text == "")
                     {
@@ -823,6 +851,8 @@ namespace xr
                     break;
 
                 case Keys.Down:
+                    if (!commandLineEnabled)
+                        goto default;
                     var nextCmd = CmdCache.GetNext();
                     if (nextCmd != null)
                     {
@@ -831,18 +861,26 @@ namespace xr
                     break;
 
                 case Keys.Left:
+                    if (!commandLineEnabled)
+                        goto default;
                     Editor.MoveCaretLeft(shiftKey, ctrlKey);
                     break;
 
                 case Keys.Right:
+                    if (!commandLineEnabled)
+                        goto default;
                     Editor.MoveCaretRight(shiftKey, ctrlKey);
                     break;
 
                 case Keys.Home:
+                    if (!commandLineEnabled)
+                        goto default;
                     Editor.Home(shiftKey);
                     break;
 
                 case Keys.End:
+                    if (!commandLineEnabled)
+                        goto default;
                     Editor.End(shiftKey);
                     break;
 
@@ -863,6 +901,8 @@ namespace xr
                     break;
 
                 case Keys.Enter:
+                    if (!commandLineEnabled)
+                        goto default;
                     var command = Editor.Text;
                     Editor.Reset();
                     if (command.Length > 0)
@@ -877,6 +917,8 @@ namespace xr
                     break;
 
                 case Keys.A:
+                    if (!commandLineEnabled)
+                        goto default;
                     if (!ctrlKey)
                     {
                         goto default;
@@ -886,6 +928,8 @@ namespace xr
                     break;
 
                 case Keys.C:
+                    if (!commandLineEnabled)
+                        goto default;
                     if (!ctrlKey)
                     {
                         goto default;
@@ -895,6 +939,8 @@ namespace xr
                     break;
 
                 case Keys.X:
+                    if (!commandLineEnabled)
+                        goto default;
                     if (!ctrlKey)
                     {
                         goto default;
@@ -904,6 +950,8 @@ namespace xr
                     break;
 
                 case Keys.V:
+                    if (!commandLineEnabled)
+                        goto default;
                     if (!ctrlKey)
                     {
                         goto default;
@@ -913,21 +961,29 @@ namespace xr
                     break;
 
                 case Keys.Escape:
+                    if (!commandLineEnabled)
+                        goto default;
                     Editor.ResetSelection();
                     e.SuppressKeyPress = true;
                     break;
 
                 case Keys.Back:
+                    if (!commandLineEnabled)
+                        goto default;
                     Editor.Backspace(ctrlKey);
                     e.SuppressKeyPress = true;
                     break;
 
                 case Keys.Delete:
+                    if (!commandLineEnabled)
+                        goto default;
                     Editor.Delete(ctrlKey);
                     e.SuppressKeyPress = true;
                     break;
 
                 case Keys.Insert:
+                    if (!commandLineEnabled)
+                        goto default;
                     Editor.ToggleEditMode();
                     break;
                     
