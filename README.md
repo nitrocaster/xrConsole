@@ -32,7 +32,7 @@ Simple and fast S.T.A.L.K.E.R. server like console control written in C#
 **Known problems:**
 
 * No smooth scrolling (does anyone need it?)
-* No coloring customization: log line color is detected by its first character exactly like in S.T.A.L.K.E.R. console
+* Limited color customization: log line color is detected by its first characters
 * Log and command line can't be selected with mouse (would be really useful)
 
 Bugs
