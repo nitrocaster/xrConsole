@@ -20,7 +20,8 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>$(SolutionDir)..\bin\debug\</OutputPath>
+    <IntermediateOutputPath>$(SolutionDir)..\intermediate\$(AssemblyName)\debug\</IntermediateOutputPath>
     <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -31,7 +32,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>$(SolutionDir)..\bin\release\</OutputPath>
+    <IntermediateOutputPath>$(SolutionDir)..\intermediate\$(AssemblyName)\release\</IntermediateOutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -76,7 +78,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\xrConsole.csproj">
+    <ProjectReference Include="$(SolutionDir)xrConsole\xrConsole.csproj">
       <Project>{b8eb167f-4f36-4899-94d8-e6220dfbb692}</Project>
       <Name>xrConsole</Name>
     </ProjectReference>
